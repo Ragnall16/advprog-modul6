@@ -3,8 +3,9 @@ Ragnall Muhammad Al Fath
 2306210550 / AdPro B
 ---
 
-[Commit 1 Reflection notes](#commit-1-reflection-notes)
-[Commit 2 Reflection notes](#commit-2-reflection-notes)
+[Commit 1 Reflection notes](#commit-1-reflection-notes) <br>
+[Commit 2 Reflection notes](#commit-2-reflection-notes) <br>
+[Commit 3 Reflection notes](#commit-3-reflection-notes) <br>
 
 ---
  
@@ -19,3 +20,9 @@ Each line of the request is read and stored in a `Vec<String>`, stopping once an
 The addition/modification of `handle_connection` function now serves an actual HTML file instead of just printing the request. It first reads the incoming HTTP request line by line, then loads the `hello.html` file from disk using `fs::read_to_string()`. To construct a valid HTTP response, it includes a status line (`HTTP/1.1 200 OK`), a `Content-Length` header indicating the size of the response, and the actual HTML content. This response is then written to the stream using `write_all()`, allowing the browser to correctly render the page. This addition/modification introduces the basics of serving static files and highlights the importance of properly formatting HTTP responses for client compatibility.
 
 ![Commit 2 screen capture](/assets/images/commit2.png)
+
+---
+## Commit 3 Reflection Notes
+The addition/modification of `handle_connection` function now handles multiple response types by checking the request line. If the request is `"GET / HTTP/1.1"`, it serves `hello.html` with a `200 OK` status; otherwise, it returns `404.html` with a `404 NOT FOUND` status. The refactoring simplifies this logic by using a tuple to store both the status line and filename, reducing redundancy and making the code cleaner. Instead of repeating file reading and response formatting for each case, the refactored version selects the correct values first and processes them in a single step. This improves maintainability and makes it easier to extend the function for additional request handling in the future.
+
+![Commit 3 screen capture](/assets/images/commit3.png)
