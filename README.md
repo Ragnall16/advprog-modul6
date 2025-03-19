@@ -6,6 +6,7 @@ Ragnall Muhammad Al Fath
 [Commit 1 Reflection notes](#commit-1-reflection-notes) <br>
 [Commit 2 Reflection notes](#commit-2-reflection-notes) <br>
 [Commit 3 Reflection notes](#commit-3-reflection-notes) <br>
+[Commit 4 Reflection notes](#commit-4-reflection-notes) <br>
 
 ---
  
@@ -26,3 +27,7 @@ The addition/modification of `handle_connection` function now serves an actual H
 The addition/modification of `handle_connection` function now handles multiple response types by checking the request line. If the request is `"GET / HTTP/1.1"`, it serves `hello.html` with a `200 OK` status; otherwise, it returns `404.html` with a `404 NOT FOUND` status. The refactoring simplifies this logic by using a tuple to store both the status line and filename, reducing redundancy and making the code cleaner. Instead of repeating file reading and response formatting for each case, the refactored version selects the correct values first and processes them in a single step. This improves maintainability and makes it easier to extend the function for additional request handling in the future.
 
 ![Commit 3 screen capture](/assets/images/commit3.png)
+
+---
+## Commit 4 Reflection Notes
+The modified `handle_connection` function introduces a delay for requests to `/sleep` using `thread::sleep(Duration::from_secs(10))`. When I opened `127.0.0.1:7878/sleep` in one browser tab and `127.0.0.1:7878` in another, I noticed that both requests were delayed. I tried only `127.0.0.1:7878` to make sure my device isn't lagging, and it displayed the html really quick. This happens because the server is handling requests sequentially in a single thread. While processing the `/sleep` request, the server is blocked and unable to respond to other incoming requests until the sleep duration is over. This demonstrates a limitation of a single-threaded server: if one request takes too long, it slows down all other requests. In a real-world scenario with multiple users, this could severely impact performance. A possible solution is to use multithreading to handle requests concurrently, ensuring that one slow request doesn’t delay others. (Which I will do in the next milestone/commit )
