@@ -7,6 +7,7 @@ Ragnall Muhammad Al Fath
 [Commit 2 Reflection notes](#commit-2-reflection-notes) <br>
 [Commit 3 Reflection notes](#commit-3-reflection-notes) <br>
 [Commit 4 Reflection notes](#commit-4-reflection-notes) <br>
+[Commit 5 Reflection notes](#commit-5-reflection-notes) <br>
 
 ---
  
@@ -31,3 +32,7 @@ The addition/modification of `handle_connection` function now handles multiple r
 ---
 ## Commit 4 Reflection Notes
 The modified `handle_connection` function introduces a delay for requests to `/sleep` using `thread::sleep(Duration::from_secs(10))`. When I opened `127.0.0.1:7878/sleep` in one browser tab and `127.0.0.1:7878` in another, I noticed that both requests were delayed. I tried only `127.0.0.1:7878` to make sure my device isn't lagging, and it displayed the html really quick. This happens because the server is handling requests sequentially in a single thread. While processing the `/sleep` request, the server is blocked and unable to respond to other incoming requests until the sleep duration is over. This demonstrates a limitation of a single-threaded server: if one request takes too long, it slows down all other requests. In a real-world scenario with multiple users, this could severely impact performance. A possible solution is to use multithreading to handle requests concurrently, ensuring that one slow request doesn’t delay others. (Which I will do in the next milestone/commit )
+
+---
+## Commit 5 Reflection Notes
+The `ThreadPool` implementation allows the server to handle multiple requests concurrently instead of processing them sequentially. It works by creating a fixed number of worker threads that wait for tasks in a queue. When a new request comes in, it is assigned to an available worker instead of blocking the main thread. This prevents slow requests from delaying others and improves performance under heavy load. Each worker thread continuously picks up tasks, executes them, and then waits for the next task. This design reduces the overhead of constantly creating and destroying threads while keeping the server responsive.
