@@ -8,6 +8,7 @@ Ragnall Muhammad Al Fath
 [Commit 3 Reflection notes](#commit-3-reflection-notes) <br>
 [Commit 4 Reflection notes](#commit-4-reflection-notes) <br>
 [Commit 5 Reflection notes](#commit-5-reflection-notes) <br>
+[Commit Bonus Reflection notes](#commit-bonus-reflection-notes) <br>
 
 ---
  
@@ -36,3 +37,7 @@ The modified `handle_connection` function introduces a delay for requests to `/s
 ---
 ## Commit 5 Reflection Notes
 The `ThreadPool` implementation allows the server to handle multiple requests concurrently instead of processing them sequentially. It works by creating a fixed number of worker threads that wait for tasks in a queue. When a new request comes in, it is assigned to an available worker instead of blocking the main thread. This prevents slow requests from delaying others and improves performance under heavy load. Each worker thread continuously picks up tasks, executes them, and then waits for the next task. This design reduces the overhead of constantly creating and destroying threads while keeping the server responsive.
+
+---
+## Commit Bonus Reflection Notes
+The `build` function improves thread pool creation by explicitly returning a `Result`, providing a more structured approach to error handling. Instead of panicking when an invalid size (such as zero) is passed, it returns a `PoolCreationError`, allowing the caller to handle the failure gracefully. This makes the code more robust and predictable, aligning with Rust’s best practices for error handling. Using `Result<ThreadPool, PoolCreationError>` instead of `Option<ThreadPool>` or an immediate `panic!` ensures that errors are properly managed, promoting safer and more reliable code execution. Additionally, this approach makes it easier to extend error handling in the future without disrupting existing functionality.
